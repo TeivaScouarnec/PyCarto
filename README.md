@@ -34,15 +34,6 @@ That's it you have your token.
 
 ## How to use the software?
 
-To use the software, you will need to:
-1. unzip the folder
-2. open the folder and open the executable BotPicarto.exe
-3. Drag and drop your permissions that you copied and pasted earlier (DO NOT touch the api server)
-4. Choose the delay (in seconds) for the software to recover your followers (Be careful, the shorter the delay, the more it can slow down your computer. Increase the delay if you experience slowdowns after you are connected)
-5. Press "Connect"
-
-Below you can see your last five followers.
-
 ## What are the libraries used?
 [PIP-installer](https://pypi.org/project/pip/)
 [PySimpleGui](https://github.com/PySimpleGUI/PySimpleGUI)
