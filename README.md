@@ -1,8 +1,6 @@
 # PicartoFollowers
 
 A small software to get the last five followers of his Picarto channel.
-![image](https://user-images.githubusercontent.com/64995222/158210905-464bcdf6-48a3-49bd-85df-a7660123199c.png)
-
 
 [Download PicartoFollowers](https://github.com/TeivaScouarnec/BotPicarto/releases/download/Release/PicartoFollower_1-0-0.zip)
 
