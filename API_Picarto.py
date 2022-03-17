@@ -85,7 +85,7 @@ def UpdateFollowers(token,API,sound):
     f = open("lastFollower.txt",'r')
     currentLastFollower = f.read()
     
-    if currentLastFollower == LastFollower:
+    if currentLastFollower != LastFollower:
         playerSound = mixer
         playerSound.init()
         try:
