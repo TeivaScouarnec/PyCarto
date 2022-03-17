@@ -1,17 +1,17 @@
-import time
 import json
+from logging import error
+from pygame import mixer
 import certifi
+import pygame
 import urllib3
 
-#---||| Ré-édite le fichier data.json |||---#
-def SetFileData(jsonFile):
-    if jsonFile == None:
-        return
+hasSound = False
 
+#---||| Ré-édite le fichier data.json |||---#
+def SetLastFollower(text1):
     #---| Ouvre (ou créer) un nouveau fichier et le réécris |---#
-    f = open("data.json",'w')
-    f.write("")
-    f.write(json.dumps(jsonFile))
+    f = open("lastFollower.txt",'w')
+    f.write(text1)
     f.close()
 
 #---||| Obtient les "followers" grâce à l'API de Picarto |||---#
@@ -41,61 +41,63 @@ def getFollowers(token,API):
     else:
         return
 
+def UpdateSound(sound):
+    if sound == "" or sound == None:
+        print ("[Script] No sound found! please, check your path in the config.yaml")
+        return False
+
+    playerSound = mixer
+    playerSound.init()
+
+    try:
+        playerSound.music.load(sound)
+    except pygame.error:
+        print ("[Script] No sound found! please, check your path in the config.yaml")
+        return False
+    else:
+        return True
+
 #---||| Mets à jour les "followers" grâce au data.json |||---#
-def UpdateFollowers(token,API):
+def UpdateFollowers(token,API,sound):
     
-    followers = []
-
-    #---| Ouvre le data.json |---#
-    with open('data.json') as json_file:
-        data=json.load(json_file)
-
     getData = getFollowers(token,API)
 
     #---| Charge la base de données depuis le serveur Picarto |---#
     try:
-        newData = json.loads(getData)
+        Data = json.loads(getData)
     except ValueError:
         print("[Picarto] ValueError! Don't load file data")
         return
     except TypeError:
         print("[Picarto] TypeError! Don't load file data")
         return
+    
+    #---| Récupère le dernier follower |---#
+    followers = []
 
-    #---| Compare le fichier data et la BDD de Picarto |---#
-    for follower in newData:
+    for follower in Data:
         followers.append(follower['name'])
 
-    #---| Mets à jour le fichier data.json et retourne les nouveaux followers |---#
-    SetFileData(newData)
-    return showFollowers(followers)
+    followers.reverse()
 
-#---||| Montre les "followers" |||---#
-def showFollowers(text):
-    textFollowers = []
-    ArrayTime = time.localtime()
-    currentTime = str(ArrayTime[3])+ ":"+ str(ArrayTime[4])
-    for follower in text:
-        textFollowers.append ({
-                'name': follower,
-                'time': currentTime
-                })
-    print (textFollowers)
-    return textFollowers
+    #---| Vérifies si c'est un nouveau follower|---#
+    LastFollower = str(followers[0])
+    f = open("lastFollower.txt",'r')
+    currentLastFollower = f.read()
+    
+    if currentLastFollower == LastFollower:
+        playerSound = mixer
+        playerSound.init()
+        try:
+            playerSound.music.load(sound)
+        except pygame.error:
+            pass
+        else:
+            playerSound.music.play()
 
-#---||| Initialise les "followers" |||---#
-def initFollowers():
-    with open('data.json') as json_file:
-        data=json.load(json_file)
-    nbsfollow = 0
-    textFollowers = []
-    ArrayTime = time.localtime()
-    currentTime = str(ArrayTime[3])+ ":"+ str(ArrayTime[4])
-    for follower in data:
-        if nbsfollow < 4:
-            textFollowers.append ({
-                'name': str(follower['name']),
-                'time': currentTime
-                })
-            nbsfollow +=1
-    return textFollowers
+    #---| Mets à jour le fichier et retourne les nouveaux followers |---#
+    SetLastFollower(LastFollower)
+    return LastFollower
+
+
+
