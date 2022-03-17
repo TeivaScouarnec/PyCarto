@@ -34,11 +34,11 @@ That's it you have your token.
 
 ## How to use the software?
 
-1.Download the application and place it in a folder where you want.
-2.Launch the application once, it will create two files.
-3.Place your authentication token in "config.yaml" (optional: if you want, you can add a small sound in WAV to alert you of new followers)
-4.Run "LastFollowerPicarto.exe" again, if you have set everything correctly, the application works and updates the file "lastfollower.txt".
-5.In OBS, when you create a text, you can get the text inside the text file.
+1. Download the application and place it in a folder where you want.
+2. Launch the application once, it will create two files.
+3. Place your authentication token in "config.yaml" (optional: if you want, you can add a small sound in WAV to alert you of new followers)
+4. Run "LastFollowerPicarto.exe" again, if you have set everything correctly, the application works and updates the file "lastfollower.txt".
+5. In OBS, when you create a text, you can get the text inside the text file.
 
 ## What are the libraries used?
 [PIP-installer](https://pypi.org/project/pip/)
