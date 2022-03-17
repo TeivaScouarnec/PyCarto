@@ -42,5 +42,5 @@ That's it you have your token.
 
 ## What are the libraries used?
 [PIP-installer](https://pypi.org/project/pip/)
-[PySimpleGui](https://github.com/PySimpleGUI/PySimpleGUI)
+[Pygame](https://pypi.org/project/pygame/)
 [Urllib3](https://urllib3.readthedocs.io/en/stable/)
