@@ -1,2 +1,5 @@
 Main\config.yaml
 Main\data.json
+followers.json
+lastFollower.txt
+dist
