@@ -1,9 +1,5 @@
-from ast import Str
 import json
 from logging import error
-import os
-from pydoc import text
-from webbrowser import get
 from pygame import mixer
 import certifi
 import pygame
@@ -11,7 +7,7 @@ import urllib3
 
 hasSound = False
 
-#---||| Rajoutes les derniers followers sur le fichier texte |||---#
+#---||| Ré-édite le fichier data.json |||---#
 def SetLastFollower(text1):
     #---| Ouvre (ou créer) un nouveau fichier et le réécris |---#
     f = open("lastFollower.txt",'w')
@@ -64,9 +60,8 @@ def UpdateSound(sound):
 #---||| Mets à jour les "followers" grâce au data.json |||---#
 def UpdateFollowers(token,API,sound):
     
-    #---| Récupère les valeurs avec l'API Picarto |---#
     getData = getFollowers(token,API)
-    
+
     #---| Charge la base de données depuis le serveur Picarto |---#
     try:
         Data = json.loads(getData)
@@ -76,36 +71,21 @@ def UpdateFollowers(token,API,sound):
     except TypeError:
         print("[Picarto] TypeError! Don't load file data")
         return
-
-    #---| Génère un nouveau fichier followers.json |---#
-    try:
-        fileJson = open("followers.json","r")
-    except OSError:
-        fileJson = open("followers.json","w")
-        fileJson.write(getData)
-
-    if (fileJson.read()=="" or fileJson.read()==None):
-        fileJson = open("followers.json","w")
-        fileJson.write(getData)
-        fileJson.close()
-
     
-    #---| Récupère les derniers followers |---#
-    fileJson = open("followers.json","r")
-    
-    currentFollowers : list = Data
-    oldFollowers = json.loads(fileJson.read())
-    newFollowers : list = []
+    #---| Récupère le dernier follower |---#
+    followers = []
 
-    for follower in currentFollowers:
-        if (follower in oldFollowers):
-            pass
-        else:
-            newFollowers.append(follower)
-    fileJson.close()
+    for follower in Data:
+        followers.append(follower['name'])
+
+    followers.reverse()
 
     #---| Vérifies si c'est un nouveau follower|---#
-    if (len(newFollowers) > 1):
+    LastFollower = str(followers[0])
+    f = open("lastFollower.txt",'r')
+    currentLastFollower = f.read()
+    
+    if currentLastFollower != LastFollower:
         playerSound = mixer
         playerSound.init()
         try:
@@ -115,16 +95,9 @@ def UpdateFollowers(token,API,sound):
         else:
             playerSound.music.play()
 
-        #---| Mets à jour les fichiers et retourne les nouveaux followers |---#
-        text1 : str = ""
+    #---| Mets à jour le fichier et retourne les nouveaux followers |---#
+    SetLastFollower(LastFollower)
+    return LastFollower
 
-        for follower in newFollowers:
-            text1 += follower['name']
-            text1 += ", "
-        SetLastFollower(text1)
 
-        fileJson = open("followers.json","w")
-        fileJson.write(getData)
-        fileJson.close()
-        return (text1)
 
