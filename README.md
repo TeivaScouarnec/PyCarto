@@ -2,7 +2,7 @@
 
 A small software to get the last follower of his Picarto channel.
 
-[Download PyCarto](https://github.com/TeivaScouarnec/BotPicarto/releases/download/Release/PicartoFollower_1-0-0.zip)
+[Download PyCarto](https://github.com/TeivaScouarnec/PyCarto/releases)
 
 ## How to get my permissions ?
 
